@@ -9,12 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,14 +29,19 @@ public class Main{
 
 	private JFrame frame;
 	private JTextField txtDebit;
+	private JTextField txtCredit;
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbCredit = new JComboBox();
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbDebit = new JComboBox();
-	int ctr;
-	private JTextField txtCredit;
+	JDateChooser dateChooser = new JDateChooser();
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
-    JTable tableEntries = new JTable(new DefaultTableModel(new Object[]{"Entry No & Date","Account","Debit","Credit"}, ctr));
+
+	int ctr = 1;
+	
+    JTable tableEntries = new JTable(new DefaultTableModel(new Object[]{"Entry No & Date","Account","Debit","Credit"},0));
+	DefaultTableModel entries = (DefaultTableModel) tableEntries.getModel();
 
     /**
 	 * Launch the application.
@@ -101,7 +106,7 @@ public class Main{
 		lblTabs.setFont(new Font("Montserrat", Font.BOLD, 23));
 		lblTabs.setBackground(new Color(51, 51, 51));
 		lblTabs.setAlignment(Label.CENTER);
-		lblTabs.setBounds(0, 0, 183, 43);
+		lblTabs.setBounds(0, 0, 158, 43);
 		panelTabs.add(lblTabs);
 		
 		Button btnJournal = new Button("General Journal");
@@ -147,22 +152,19 @@ public class Main{
 			}
 		});
 		
+		
+		
+		
+		
+		
+		
+		
+		
 		JPanel panelJournal = new JPanel();
 		panelJournal.setLayout(null);
 		panelJournal.setBackground(Color.WHITE);
 		panelJournal.setBounds(210, 100, 442, 461);
 		frame.getContentPane().add(panelJournal);
-		
-		Button btnClearJournal = new Button("CLEAR");
-		btnClearJournal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnClearJournal.setForeground(SystemColor.text);
-		btnClearJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
-		btnClearJournal.setBackground(new Color(51,51,51));
-		btnClearJournal.setBounds(0, 412, 442, 49);
-		panelJournal.add(btnClearJournal);
 		
 		Label lblJournal = new Label("GENERAL JOURNAL");
 		lblJournal.setForeground(SystemColor.text);
@@ -171,7 +173,19 @@ public class Main{
 		lblJournal.setAlignment(Label.CENTER);
 		lblJournal.setBounds(0, 0, 442, 43);
 		panelJournal.add(lblJournal);
-
+		
+			Button btnClearJournal = new Button("CLEAR");
+			btnClearJournal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					entries.setRowCount(0);
+				}
+			});
+			btnClearJournal.setForeground(SystemColor.text);
+			btnClearJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
+			btnClearJournal.setBackground(new Color(51,51,51));
+			btnClearJournal.setBounds(0, 412, 442, 49);
+			panelJournal.add(btnClearJournal);
+			
         JScrollPane tableScroll = new JScrollPane(tableEntries);        
         JTableHeader tableHeader = tableEntries.getTableHeader();
         
@@ -192,7 +206,7 @@ public class Main{
         
         
         
-        
+   
 		JPanel panelInputs = new JPanel();
 		panelInputs.setBackground(SystemColor.text);
 		panelInputs.setBounds(679, 100, 235, 461);
@@ -214,7 +228,7 @@ public class Main{
 			
 			cmbDebit.setToolTipText("Debit");
 			cmbDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
-			cmbDebit.setModel(new DefaultComboBoxModel(new String[] {"", "Cash  ", "Accounts Receivable ", "Accounts Payable ", "Supplies ", "Drawing ", "Land ", "Equipment", "Rent Expense  ", "Salary Expense ", "Utility Expense  "}));
+			cmbDebit.setModel(new DefaultComboBoxModel(new String[] {"", "Accounts Receivable", "Cash", "Supplies", "Land", "Equipment", "Accounts Payable", "Unearned Income", "Capital", "Drawing", "Sales", "Service Revenue", "Rent Expense ", "Salary Expense", "Utility Expense"}));
 			cmbDebit.setBounds(38, 97, 159, 28);
 			panelInputs.add(cmbDebit);
 			
@@ -230,7 +244,7 @@ public class Main{
 		lblCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
 			
 			cmbCredit.setToolTipText("Credit");
-			cmbCredit.setModel(new DefaultComboBoxModel(new String[] {"", "Cash  ", "Accounts Receivable ", "Accounts Payable ", "Supplies ", "Drawing ", "Land ", "Equipment", "Rent Expense  ", "Salary Expense ", "Utility Expense  "}));
+			cmbCredit.setModel(new DefaultComboBoxModel(new String[] {"", "Accounts Receivable", "Cash", "Supplies", "Land", "Equipment", "Accounts Payable", "Unearned Income", "Capital", "Drawing", "Sales", "Service Revenue", "Rent Expense ", "Salary Expense", "Utility Expense"}));
 			cmbCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
 			cmbCredit.setBounds(38, 193, 159, 28);
 			panelInputs.add(cmbCredit);
@@ -246,7 +260,6 @@ public class Main{
 		panelInputs.add(lblDate);
 		lblDate.setFont(new Font("Montserrat", Font.PLAIN, 17));
 		
-		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -257,34 +270,47 @@ public class Main{
 		panelInputs.add(dateChooser);
 		
 		Button btnSubmit = new Button("SUBMIT");
-		DefaultTableModel entries = (DefaultTableModel) tableEntries.getModel();
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				
-				if (cmbDebit.getSelectedItem() != "" && cmbCredit.getSelectedItem()=="")					
-					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText()});
-				else {
-					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
-					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbCredit.getSelectedItem(), "", txtCredit.getText()});
+				if(dateChooser.getDate() != null) {
+					if ( (!cmbDebit.getSelectedItem().equals("") && !txtDebit.getText().equals("")) && (cmbCredit.getSelectedItem().equals("") && txtCredit.getText().equals("")))	{				
+						entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
+						ctr++;reset();
+					}
+					else if ( (cmbDebit.getSelectedItem().equals("") && txtDebit.getText().equals("")) && (!cmbCredit.getSelectedItem().equals("") && !txtCredit.getText().equals("")))		{			
+						entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbCredit.getSelectedItem(), "", txtCredit.getText()});
+						ctr++;reset();
+					}
+					else if ( (!cmbDebit.getSelectedItem().equals("") && !txtDebit.getText().equals("")) && (!cmbCredit.getSelectedItem().equals("") && !txtCredit.getText().equals(""))) {				
+						entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
+						entries.addRow(new Object[]{"", cmbCredit.getSelectedItem(), "", txtCredit.getText()});
+						ctr++;reset();
+					}
+					else{
+						JOptionPane.showMessageDialog(new JPanel(), "Please input Debit/Credit first.", "Oops.",
+								JOptionPane.WARNING_MESSAGE);
+					}
 				}
-				
-				cmbDebit.setSelectedIndex(-1);
-				cmbCredit.setSelectedIndex(-1);
-				txtDebit.setText("");
-				txtCredit.setText("");
-				dateChooser.setDate(null);
+				else JOptionPane.showMessageDialog(new JPanel(), "Please select entry date first.", "Oops.",
+							JOptionPane.WARNING_MESSAGE);
 			}
 		});
+		
 		btnSubmit.setBounds(33, 364, 169, 36);
 		panelInputs.add(btnSubmit);
 		btnSubmit.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnSubmit.setForeground(new Color(0, 0, 0));
 		btnSubmit.setBackground(new Color(255, 215, 0));
 		
-
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		frame.setVisible(true);
+	}
+	
+	public void reset() {
+		cmbDebit.setSelectedItem("");
+		cmbCredit.setSelectedItem("");
+		txtDebit.setText("");
+		txtCredit.setText("");
+		dateChooser.setDate(null);
 	}
 }

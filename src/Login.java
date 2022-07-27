@@ -114,8 +114,7 @@ public class Login extends JFrame {
 							new Main();							
 						}
 						else {
-							JPanel pane = new JPanel();
-							JOptionPane.showMessageDialog(pane, "Credentials invalid!", "Oops.",
+							JOptionPane.showMessageDialog(new JPanel(), "Credentials invalid!", "Oops.",
 									JOptionPane.WARNING_MESSAGE);
 						}
 					}
