@@ -1,26 +1,26 @@
+import java.awt.Button;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Label;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Font;
-import com.toedter.calendar.JCalendar;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import java.awt.SystemColor;
-import java.awt.Label;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.ImageIcon;
 
 public class Main {
 
@@ -35,7 +35,6 @@ public class Main {
             return false;
         }
     };
-    private JTextField textField;
 
     /**
 	 * Launch the application.
@@ -118,23 +117,12 @@ public class Main {
 		lblInputs.setBounds(0, 0, 235, 43);
 		panelInputs.add(lblInputs);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		textField.setColumns(10);
-		textField.setBounds(28, 255, 135, 36);
-		panelInputs.add(textField);
-		
-		JPanel panelCalendar = new JPanel();
-		panelCalendar.setBorder(null);
-		panelCalendar.setBackground(SystemColor.text);
-		panelCalendar.setBounds(5, 255, 224, 173);
-		panelInputs.add(panelCalendar);
-			panelCalendar.setVisible(false);
-		panelCalendar.setLayout(null);
-		
-		JCalendar calendar = new JCalendar();
-		calendar.setBounds(10, 11, 206, 153);
-		panelCalendar.add(calendar);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.getCalendarButton().setSelectedIcon(new ImageIcon("C:\\Users\\ejaay\\eclipse-workspace\\AccountingSystem\\src\\img\\cal.png"));
+		dateChooser.getCalendarButton().setIcon(new ImageIcon("C:\\Users\\ejaay\\eclipse-workspace\\AccountingSystem\\src\\img\\cal.png"));
+		dateChooser.getCalendarButton().setFont(new Font("Montserrat", Font.PLAIN, 17));
+		dateChooser.setBounds(28, 255, 169, 36);
+		panelInputs.add(dateChooser);
 		
 		JPanel panelHeader = new JPanel();
 		panelHeader.setBackground(new Color(51, 51, 51));

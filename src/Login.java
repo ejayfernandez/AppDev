@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -102,10 +103,24 @@ public class Login extends JFrame {
 				btnLogin.setFont(new Font("Montserrat", Font.BOLD, 17));
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
-						new Main();
+						
+						System.out.println(txtUsername.getText());
+						System.out.println(txtPassword.getPassword());
+						System.out.println("user".toCharArray());
+						System.out.print(txtPassword.getPassword() == "user".toCharArray());
+
+						if( (txtUsername.getText() == "user") && (txtPassword.getPassword() == "user".toCharArray()) ) {
+							setVisible(false);
+							new Main();							
+						}
+						else {
+							JPanel pane = new JPanel();
+							JOptionPane.showMessageDialog(pane, "Credentials invalid!", "Oops.",
+									JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				});
+				
 				btnLogin.setForeground(Color.DARK_GRAY);
 				btnLogin.setBackground(new Color(255, 215, 0));
 				
