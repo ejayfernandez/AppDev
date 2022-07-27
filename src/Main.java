@@ -8,7 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,21 +24,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import com.toedter.calendar.JDateChooser;
-import javax.swing.ImageIcon;
 
-public class Main {
+public class Main{
 
 	private JFrame frame;
 	private JTextField txtDebit;
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbCredit = new JComboBox();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbDebit = new JComboBox();
+	int ctr;
 	private JTextField txtCredit;
 	
-    DefaultTableModel modelEntries = new DefaultTableModel(){
-		private static final long serialVersionUID = 4061691425374337651L;
-        public boolean isCellEditable(int row, int column) {
-            //all cells false
-            return false;
-        }
-    };
+    JTable tableEntries = new JTable(new DefaultTableModel(new Object[]{"Entry No & Date","Account","Debit","Credit"}, ctr));
 
     /**
 	 * Launch the application.
@@ -62,68 +64,14 @@ public class Main {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	void initialize() {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void initialize(){
 		frame = new JFrame();
 		frame.getContentPane().setBackground(SystemColor.scrollbar);
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 943, 587);
 		frame.getContentPane().setLayout(null);
-		
-		JPanel panelInputs = new JPanel();
-		panelInputs.setBackground(SystemColor.text);
-		panelInputs.setBounds(679, 100, 235, 461);
-		frame.getContentPane().add(panelInputs);
-		panelInputs.setLayout(null);
-		
-		JLabel lblDebit = new JLabel("DEBIT");
-		lblDebit.setBounds(28, 86, 114, 14);
-		panelInputs.add(lblDebit);
-		lblDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		
-		txtDebit = new JTextField();
-		txtDebit.setBounds(28, 111, 169, 36);
-		panelInputs.add(txtDebit);
-		txtDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		txtDebit.setColumns(10);
-		
-		JLabel lblCredit = new JLabel("CREDIT");
-		lblCredit.setBounds(28, 158, 96, 14);
-		panelInputs.add(lblCredit);
-		lblCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		
-		txtCredit = new JTextField();
-		txtCredit.setBounds(28, 183, 169, 36);
-		panelInputs.add(txtCredit);
-		txtCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		txtCredit.setColumns(10);
-		
-		JLabel lblDate = new JLabel("DATE");
-		lblDate.setBounds(28, 230, 96, 14);
-		panelInputs.add(lblDate);
-		lblDate.setFont(new Font("Montserrat", Font.PLAIN, 17));
-		
-		Button btnSubmit = new Button("SUBMIT");
-		btnSubmit.setBounds(33, 364, 169, 36);
-		panelInputs.add(btnSubmit);
-		btnSubmit.setFont(new Font("Montserrat", Font.BOLD, 17));
-		btnSubmit.setForeground(new Color(0, 0, 0));
-		btnSubmit.setBackground(new Color(255, 215, 0));
-		
-		Label lblInputs = new Label("ADD ENTRY");
-		lblInputs.setForeground(SystemColor.text);
-		lblInputs.setAlignment(Label.CENTER);
-		lblInputs.setFont(new Font("Montserrat", Font.BOLD, 23));
-		lblInputs.setBackground(new Color(51, 51, 51));
-		lblInputs.setBounds(0, 0, 235, 43);
-		panelInputs.add(lblInputs);
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.getCalendarButton().setSelectedIcon(new ImageIcon("C:\\Users\\ejaay\\eclipse-workspace\\AccountingSystem\\src\\img\\cal.png"));
-		dateChooser.getCalendarButton().setIcon(new ImageIcon("C:\\Users\\ejaay\\eclipse-workspace\\AccountingSystem\\src\\img\\cal.png"));
-		dateChooser.getCalendarButton().setFont(new Font("Montserrat", Font.PLAIN, 17));
-		dateChooser.setBounds(28, 255, 169, 36);
-		panelInputs.add(dateChooser);
-		
+
 		JPanel panelHeader = new JPanel();
 		panelHeader.setBackground(new Color(51, 51, 51));
 		panelHeader.setBounds(0, 0, 943, 75);
@@ -135,59 +83,17 @@ public class Main {
 		lblLogOut.setBounds(820, 27, 87, 22);
 		lblLogOut.setFont(new Font("Montserrat", Font.PLAIN, 17));
 		panelHeader.add(lblLogOut);
-			lblLogOut.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					frame.setVisible(false);
-				}
-			});
-		
-		JPanel panelJournal = new JPanel();
-		panelJournal.setLayout(null);
-		panelJournal.setBackground(Color.WHITE);
-		panelJournal.setBounds(237, 100, 415, 461);
-		frame.getContentPane().add(panelJournal);
-		
-		Button btnClearJournal = new Button("CLEAR");
-		btnClearJournal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		lblLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				frame.setVisible(false);
 			}
 		});
-		btnClearJournal.setForeground(SystemColor.text);
-		btnClearJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
-		btnClearJournal.setBackground(new Color(51,51,51));
-		btnClearJournal.setBounds(0, 412, 415, 49);
-		panelJournal.add(btnClearJournal);
 		
-		Label lblJournal = new Label("GENERAL JOURNAL");
-		lblJournal.setForeground(SystemColor.text);
-		lblJournal.setFont(new Font("Montserrat", Font.BOLD, 23));
-		lblJournal.setBackground(new Color(51, 51, 51));
-		lblJournal.setAlignment(Label.CENTER);
-		lblJournal.setBounds(0, 0, 415, 43);
-		panelJournal.add(lblJournal);
-
-		Object[][] data = {
-			{"Sample Date", "Accounts Receivable", "500", ""}
-		};
-
-        JTable tableEntries = new JTable(data, new Object[]{"Entry No & Date","Account","Debit","Credit"});
-        JScrollPane tableScroll = new JScrollPane(tableEntries);        
-        JTableHeader tableHeader = tableEntries.getTableHeader();
-        
-	        tableHeader.setBackground(new Color(250,215,0)); // change the Background color
-	        tableHeader.setFont(new Font("Montserrat", Font.PLAIN, 17)); // font name style size
-	        ((DefaultTableCellRenderer)tableHeader.getDefaultRenderer())
-	                .setHorizontalAlignment(JLabel.CENTER); // center header text
-	        tableEntries.setFont(new Font("Montserrat", Font.PLAIN, 15));
-	        tableHeader.setReorderingAllowed(false);
-        tableScroll.setBounds(21, 64, 373, 326);
-        panelJournal.add(tableScroll);
-        
 		JPanel panelTabs = new JPanel();
 		panelTabs.setLayout(null);
 		panelTabs.setBackground(Color.WHITE);
-		panelTabs.setBounds(27, 100, 183, 461);
+		panelTabs.setBounds(27, 100, 158, 461);
 		frame.getContentPane().add(panelTabs);
 		
 		Label lblTabs = new Label("TABS");
@@ -198,48 +104,184 @@ public class Main {
 		lblTabs.setBounds(0, 0, 183, 43);
 		panelTabs.add(lblTabs);
 		
-		Button btnJournal = new Button("SUBMIT");
+		Button btnJournal = new Button("General Journal");
 		btnJournal.setForeground(Color.BLACK);
 		btnJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnJournal.setBackground(new Color(255, 215, 0));
-		btnJournal.setBounds(1, 66, 183, 114);
+		btnJournal.setBounds(-12, 66, 183, 114);
 		panelTabs.add(btnJournal);
 		
-		Button btnTrial = new Button("SUBMIT");
+		Button btnTrial = new Button("Trial Balance");
 		btnTrial.setForeground(Color.BLACK);
 		btnTrial.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-		btnTrial.setBounds(0, 194, 183, 114);
+		btnTrial.setBounds(-12, 194, 183, 114);
 		panelTabs.add(btnTrial);
 		
-		Button btnStatement = new Button("SUBMIT");
+		Button btnStatement = new Button("Income Statement");
 		btnStatement.setForeground(Color.BLACK);
 		btnStatement.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
-		btnStatement.setBounds(0, 324, 183, 114);
+		btnStatement.setBounds(-12, 324, 183, 114);
 		panelTabs.add(btnStatement);
+		
+		btnJournal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnJournal.setBackground(new Color(255, 215, 0));
+				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
+				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+			}
+		});
+		btnTrial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
+				btnTrial.setBackground(new Color(255, 215, 0));
+				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+			}
+		});
+		btnStatement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
+				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
+				btnStatement.setBackground(new Color(255, 215, 0));
+			}
+		});
+		
+		JPanel panelJournal = new JPanel();
+		panelJournal.setLayout(null);
+		panelJournal.setBackground(Color.WHITE);
+		panelJournal.setBounds(210, 100, 442, 461);
+		frame.getContentPane().add(panelJournal);
+		
+		Button btnClearJournal = new Button("CLEAR");
+		btnClearJournal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnClearJournal.setForeground(SystemColor.text);
+		btnClearJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
+		btnClearJournal.setBackground(new Color(51,51,51));
+		btnClearJournal.setBounds(0, 412, 442, 49);
+		panelJournal.add(btnClearJournal);
+		
+		Label lblJournal = new Label("GENERAL JOURNAL");
+		lblJournal.setForeground(SystemColor.text);
+		lblJournal.setFont(new Font("Montserrat", Font.BOLD, 23));
+		lblJournal.setBackground(new Color(51, 51, 51));
+		lblJournal.setAlignment(Label.CENTER);
+		lblJournal.setBounds(0, 0, 442, 43);
+		panelJournal.add(lblJournal);
+
+        JScrollPane tableScroll = new JScrollPane(tableEntries);        
+        JTableHeader tableHeader = tableEntries.getTableHeader();
+        
+	        tableHeader.setBackground(new Color(250,215,0)); // change the Background color
+	        tableHeader.setFont(new Font("Montserrat", Font.PLAIN, 17)); // font name style size
+	        ((DefaultTableCellRenderer)tableHeader.getDefaultRenderer())
+	                .setHorizontalAlignment(JLabel.CENTER); // center header text
+	        tableEntries.setFont(new Font("Montserrat", Font.PLAIN, 14));
+	        tableEntries.getColumnModel().getColumn(0).setPreferredWidth(150);
+	        tableHeader.setReorderingAllowed(false);
+	        tableHeader.setResizingAllowed(false);
+        tableScroll.setBounds(21, 64, 400, 326);
+        panelJournal.add(tableScroll);
+        
+        
+        
+        
+        
+        
+        
+        
+		JPanel panelInputs = new JPanel();
+		panelInputs.setBackground(SystemColor.text);
+		panelInputs.setBounds(679, 100, 235, 461);
+		frame.getContentPane().add(panelInputs);
+		panelInputs.setLayout(null);
+	
+			Label lblInputs = new Label("ADD ENTRY");
+			lblInputs.setForeground(SystemColor.text);
+			lblInputs.setAlignment(Label.CENTER);
+			lblInputs.setFont(new Font("Montserrat", Font.BOLD, 23));
+			lblInputs.setBackground(new Color(51, 51, 51));
+			lblInputs.setBounds(0, 0, 235, 43);
+			panelInputs.add(lblInputs);
+		
+		JLabel lblDebit = new JLabel("DEBIT");
+		lblDebit.setBounds(28, 76, 114, 14);
+		panelInputs.add(lblDebit);
+		lblDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
 			
-			btnJournal.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					btnJournal.setBackground(new Color(255, 215, 0));
-					btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-					btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+			cmbDebit.setToolTipText("Debit");
+			cmbDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
+			cmbDebit.setModel(new DefaultComboBoxModel(new String[] {"", "Cash  ", "Accounts Receivable ", "Accounts Payable ", "Supplies ", "Drawing ", "Land ", "Equipment", "Rent Expense  ", "Salary Expense ", "Utility Expense  "}));
+			cmbDebit.setBounds(38, 97, 159, 28);
+			panelInputs.add(cmbDebit);
+			
+			txtDebit = new JTextField();
+			txtDebit.setBounds(40, 135, 159, 28);
+			panelInputs.add(txtDebit);
+			txtDebit.setFont(new Font("Montserrat", Font.PLAIN, 17));
+			txtDebit.setColumns(10);
+		
+		JLabel lblCredit = new JLabel("CREDIT");
+		lblCredit.setBounds(28, 172, 96, 14);
+		panelInputs.add(lblCredit);
+		lblCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
+			
+			cmbCredit.setToolTipText("Credit");
+			cmbCredit.setModel(new DefaultComboBoxModel(new String[] {"", "Cash  ", "Accounts Receivable ", "Accounts Payable ", "Supplies ", "Drawing ", "Land ", "Equipment", "Rent Expense  ", "Salary Expense ", "Utility Expense  "}));
+			cmbCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
+			cmbCredit.setBounds(38, 193, 159, 28);
+			panelInputs.add(cmbCredit);
+			
+			txtCredit = new JTextField();
+			txtCredit.setFont(new Font("Montserrat", Font.PLAIN, 17));
+			txtCredit.setColumns(10);
+			txtCredit.setBounds(40, 231, 159, 28);
+			panelInputs.add(txtCredit);
+		
+		JLabel lblDate = new JLabel("DATE");
+		lblDate.setBounds(28, 273, 96, 14);
+		panelInputs.add(lblDate);
+		lblDate.setFont(new Font("Montserrat", Font.PLAIN, 17));
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		dateChooser.getCalendarButton().setIcon(new ImageIcon("C:\\Users\\ejaay\\eclipse-workspace\\AccountingSystem\\src\\img\\cal.png"));
+		dateChooser.getCalendarButton().setFont(new Font("Montserrat", Font.PLAIN, 17));
+		dateChooser.setBounds(28, 298, 169, 28);
+		panelInputs.add(dateChooser);
+		
+		Button btnSubmit = new Button("SUBMIT");
+		DefaultTableModel entries = (DefaultTableModel) tableEntries.getModel();
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				
+				if (cmbDebit.getSelectedItem() != "" && cmbCredit.getSelectedItem()=="")					
+					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText()});
+				else {
+					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
+					entries.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbCredit.getSelectedItem(), "", txtCredit.getText()});
 				}
-			});
-			btnTrial.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
-					btnTrial.setBackground(new Color(255, 215, 0));
-					btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
-				}
-			});
-			btnStatement.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
-					btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-					btnStatement.setBackground(new Color(255, 215, 0));
-				}
-			});
+				
+				cmbDebit.setSelectedIndex(-1);
+				cmbCredit.setSelectedIndex(-1);
+				txtDebit.setText("");
+				txtCredit.setText("");
+				dateChooser.setDate(null);
+			}
+		});
+		btnSubmit.setBounds(33, 364, 169, 36);
+		panelInputs.add(btnSubmit);
+		btnSubmit.setFont(new Font("Montserrat", Font.BOLD, 17));
+		btnSubmit.setForeground(new Color(0, 0, 0));
+		btnSubmit.setBackground(new Color(255, 215, 0));
+		
 
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
