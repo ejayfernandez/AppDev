@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.text.DecimalFormat;
+
 
 import com.toedter.calendar.JDateChooser;
 
@@ -37,9 +39,24 @@ public class Main{
 	JDateChooser dateChooser = new JDateChooser();
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    DecimalFormat fdf = new DecimalFormat("0.00");
     
-    
-    
+    float accrec,
+	    cash,
+	    supplies,
+	    land ,
+	    equipment,
+	    accpay,
+	    unearned,
+	    capital,
+	    drawing,
+	    sales,
+	    revenue,
+	    rent,
+	    salary,
+	    utility;
+	float totalDebit = 0, totalCredit = 0;
+
 
 	int ctr = 1;
 	
@@ -127,23 +144,36 @@ public class Main{
 		btnJournal.setForeground(Color.BLACK);
 		btnJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnJournal.setBackground(new Color(255, 215, 0));
-		btnJournal.setBounds(-12, 66, 183, 114);
+		btnJournal.setBounds(-12, 66, 183, 58);
 		panelTabs.add(btnJournal);
 		
 		Button btnTrial = new Button("Trial Balance");
 		btnTrial.setForeground(Color.BLACK);
 		btnTrial.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-		btnTrial.setBounds(-12, 194, 183, 114);
+		btnTrial.setBounds(-12, 133, 183, 58);
 		panelTabs.add(btnTrial);
 		
 		Button btnStatement = new Button("Income Statement");
 		btnStatement.setForeground(Color.BLACK);
 		btnStatement.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
-		btnStatement.setBounds(-12, 324, 183, 114);
+		btnStatement.setBounds(-11, 203, 183, 58);
 		panelTabs.add(btnStatement);
 		
+		Button btnEquity = new Button("Income Statement");
+		btnEquity.setForeground(Color.BLACK);
+		btnEquity.setFont(new Font("Montserrat", Font.BOLD, 17));
+		btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
+		btnEquity.setBounds(-11, 203, 183, 58);
+		panelTabs.add(btnEquity);
+
+		Button btnPosition = new Button("Income Statement");
+		btnPosition.setForeground(Color.BLACK);
+		btnPosition.setFont(new Font("Montserrat", Font.BOLD, 17));
+		btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
+		btnPosition.setBounds(-11, 203, 183, 58);
+		panelTabs.add(btnPosition);
 		
 		
 		
@@ -169,6 +199,22 @@ public class Main{
 			btnClearJournal.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					entJournal.setRowCount(0);
+					//resets the journal to 0
+						accrec = 0;
+					    cash = 0;
+					    supplies = 0;
+					    land  = 0;
+					    equipment = 0;
+					    accpay = 0;
+					    unearned = 0;
+					    capital = 0;
+					    drawing = 0;
+					    sales = 0;
+					    revenue = 0;
+					    rent = 0;
+					    salary = 0;
+					    utility = 0;;
+					    trialBalance();
 				}
 			});
 			btnClearJournal.setForeground(SystemColor.text);
@@ -232,22 +278,21 @@ public class Main{
 	        tableHeader_Trial.setReorderingAllowed(false);
 	        tableHeader_Trial.setResizingAllowed(false);
 	        tableTrial.setRowHeight(23);
-//	        tableTrial.set
-	        
+
 	        entTrial.addRow(new Object[]{"Accounts Receivable", 0, 0});
-	        entTrial.addRow(new Object[]{"Accounts Payable", 0, 0});
 	        entTrial.addRow(new Object[]{"Cash", 0, 0});
 	        entTrial.addRow(new Object[]{"Supplies", 0, 0});
+	        entTrial.addRow(new Object[]{"Land", 0, 0});
+	        entTrial.addRow(new Object[]{"Equipment", 0, 0});
+	        entTrial.addRow(new Object[]{"Accounts Payable", 0, 0});
+	        entTrial.addRow(new Object[]{"Unearned Income", 0, 0});
+	        entTrial.addRow(new Object[]{"Capital", 0, 0});
+	        entTrial.addRow(new Object[]{"Drawing", 0, 0});
+	        entTrial.addRow(new Object[]{"Sales", 0, 0});
+	        entTrial.addRow(new Object[]{"Service Revenue", 0, 0});
 	        entTrial.addRow(new Object[]{"Rent Expense", 0, 0});
 	        entTrial.addRow(new Object[]{"Salary Expense", 0, 0});
 	        entTrial.addRow(new Object[]{"Utility Expense", 0, 0});
-	        entTrial.addRow(new Object[]{"Drawing", 0, 0});
-	        entTrial.addRow(new Object[]{"Land", 0, 0});
-	        entTrial.addRow(new Object[]{"Equipment", 0, 0});
-	        entTrial.addRow(new Object[]{"Unearned Income", 0, 0});
-	        entTrial.addRow(new Object[]{"Capital", 0, 0});
-	        entTrial.addRow(new Object[]{"Sales", 0, 0});
-	        entTrial.addRow(new Object[]{"Service Revenue", 0, 0});
 	        entTrial.addRow(new Object[]{"Total", 0, 0});
 	    tableScroll_Trial.setBounds(21, 64, 660, 372);
         panelTrial.add(tableScroll_Trial);
@@ -331,16 +376,16 @@ public class Main{
 							if ( (!cmbDebit.getSelectedItem().equals("") && !txtDebit.getText().equals("")) && (cmbCredit.getSelectedItem().equals("") && txtCredit.getText().equals("")))	{				
 								entJournal.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
 								tableTrial.getModel().setValueAt(txtDebit.getText(), 5, 1);
-								ctr++;reset();
+								compute(); ctr++; reset();
 							}
 							else if ( (cmbDebit.getSelectedItem().equals("") && txtDebit.getText().equals("")) && (!cmbCredit.getSelectedItem().equals("") && !txtCredit.getText().equals("")))		{			
 								entJournal.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbCredit.getSelectedItem(), "", txtCredit.getText()});
-								ctr++;reset();
+								compute(); ctr++; reset();
 							}
 							else if ( (!cmbDebit.getSelectedItem().equals("") && !txtDebit.getText().equals("")) && (!cmbCredit.getSelectedItem().equals("") && !txtCredit.getText().equals(""))) {				
 								entJournal.addRow(new Object[]{(ctr* + 1) + "  " + df.format(dateChooser.getDate()), cmbDebit.getSelectedItem(), txtDebit.getText(), ""});
 								entJournal.addRow(new Object[]{"", cmbCredit.getSelectedItem(), "", txtCredit.getText()});
-								ctr++;reset();
+								compute(); ctr++; reset();
 							}
 							else{
 								JOptionPane.showMessageDialog(new JPanel(), "Please input Debit/Credit first.", "Oops.",
@@ -349,16 +394,6 @@ public class Main{
 						}
 						else JOptionPane.showMessageDialog(new JPanel(), "Please select entry date first.", "Oops.",
 									JOptionPane.WARNING_MESSAGE);
-						
-						
-						if(cmbDebit.getSelectedItem().equals("Cash")) {
-							System.out.println("HEHEHEHE");
-							tableTrial.getModel().setValueAt(txtDebit.getText(), 5, 6);
-						}
-						else {
-							System.out.println(cmbDebit.getSelectedIndex());
-							System.out.println("SAD");
-						}
 					}
 				});
 				
@@ -420,6 +455,176 @@ public class Main{
 				btnStatement.setBackground(new Color(255, 215, 0));
 			}
 		});
+		btnStatement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
+				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
+				btnStatement.setBackground(new Color(255, 215, 0));
+			}
+		});
+		btnStatement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
+				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
+				btnStatement.setBackground(new Color(255, 215, 0));
+			}
+		});
+	}
+
+	public void compute() {
+		String[] accs = { "Accounts Receivable", 
+				"Cash", 
+				"Supplies", 
+				"Land", 
+				"Equipment", 
+				"Accounts Payable", 
+				"Unearned Income", 
+				"Capital", 
+				"Drawing", 
+				"Sales", 
+				"Service Revenue", 
+				"Rent Expense ", 
+				"Salary Expense", 
+				"Utility Expense"};
+
+		for (int c = 0; c < 14; c++) {
+			if(cmbDebit.getSelectedItem().equals(accs[c])) {
+				if(c == 0) accrec += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 1) cash += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 2) supplies += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 3) land += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 4) equipment += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 5) accpay += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 6) unearned += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 7) capital += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 8) drawing += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 9) sales += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 10) revenue += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 11) rent += Float.parseFloat(txtDebit.getText().toString()); 
+				else if(c == 12) salary += Float.parseFloat(txtDebit.getText().toString()); 
+				else utility += Float.parseFloat(txtDebit.getText().toString()); 
+
+				tableTrial.getModel().setValueAt(txtDebit.getText(), c, 1);
+			}
+			
+			if(cmbCredit.getSelectedItem().equals(accs[c])) {
+				if(c == 0) accrec -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 1) cash -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 2) supplies -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 3) land -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 4) equipment -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 5) accpay -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 6) unearned -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 7) capital -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 8) drawing -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 9) sales -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 10) revenue -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 11) rent -= Float.parseFloat(txtCredit.getText().toString()); 
+				else if(c == 12) salary -= Float.parseFloat(txtCredit.getText().toString()); 
+				else utility -= Float.parseFloat(txtCredit.getText().toString()); 
+
+				tableTrial.getModel().setValueAt(txtCredit.getText(), c, 2);
+			}
+			trialBalance();
+		}				
+	}
+	public void trialBalance() {
+		fdf.setMaximumFractionDigits(2);
+		totalDebit = 0; totalCredit = 0;
+
+		for(int r = 0; r<=14; r++) {
+			for(int c = 1; c<=2; c++) {
+				tableTrial.getModel().setValueAt("0.00", r, c);
+			}
+		}
+
+			if (accrec >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(accrec).toString(), 0, 1);
+				totalDebit += accrec;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(accrec)).toString(), 0, 2);
+				totalCredit += Math.abs(accrec);			}
+			if (cash >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(cash).toString(), 1, 1);
+				totalDebit += cash;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(cash)).toString(), 1, 2);
+				totalCredit += Math.abs(cash);			}
+			if (supplies >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(supplies).toString(), 2, 1);
+				totalDebit += supplies;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(supplies)).toString(), 2, 2);
+				totalCredit += Math.abs(supplies);			}
+			if (land >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(land).toString(), 3, 1);
+				totalDebit += land;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(land)).toString(), 3, 2);
+				totalCredit += Math.abs(land);			}
+			if (equipment >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(equipment).toString(), 4, 1);
+				totalDebit += equipment;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(equipment)).toString(), 4, 2);
+				totalCredit += Math.abs(equipment);			}
+			if (accpay >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(accpay).toString(), 5, 1);
+				totalDebit += accpay;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(accpay)).toString(), 5, 2);
+				totalCredit += Math.abs(accpay);			}
+			if (unearned >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(unearned).toString(), 6, 1);
+				totalDebit += unearned;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(unearned)).toString(), 6, 2);
+				totalCredit += Math.abs(unearned);			}
+			if (capital >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(capital).toString(), 7, 1);
+				totalDebit += capital;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(capital)).toString(), 7, 2);
+				totalCredit += Math.abs(capital);			}
+			if (drawing >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(drawing).toString(), 8, 1);
+				totalDebit += drawing;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(drawing)).toString(), 8, 2);
+				totalCredit += Math.abs(drawing);			}
+			if (sales >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(sales).toString(), 9, 1);
+				totalDebit += sales;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(sales)).toString(), 9, 2);
+				totalCredit += Math.abs(sales);			}
+			if (revenue >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(revenue).toString(), 10, 1);
+				totalDebit += revenue;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(revenue)).toString(), 10, 2);
+				totalCredit += Math.abs(revenue);			}
+			if (rent >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(rent).toString(), 11, 1);
+				totalDebit += rent;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(rent)).toString(), 11, 2);
+				totalCredit += Math.abs(rent);			}
+			if (salary >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(salary).toString(), 12, 1);
+				totalDebit += salary;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(salary)).toString(), 12, 2);
+				totalCredit += Math.abs(salary);			}
+			if (utility >= 0) {
+				tableTrial.getModel().setValueAt(fdf.format(utility).toString(), 13, 1);
+				totalDebit += utility;			}
+			else{
+				tableTrial.getModel().setValueAt(fdf.format(Math.abs(utility)).toString(), 13, 2);
+				totalCredit += Math.abs(utility);			}
+			
+			tableTrial.getModel().setValueAt(fdf.format(totalDebit).toString(), 14, 1);
+			tableTrial.getModel().setValueAt(fdf.format(totalCredit).toString(), 14, 2);
 	}
 	
 	public void reset() {
@@ -430,3 +635,30 @@ public class Main{
 		dateChooser.setDate(null);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
