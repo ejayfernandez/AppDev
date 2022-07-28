@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+
 import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTextField;
@@ -103,13 +105,12 @@ public class Login extends JFrame {
 				btnLogin.setFont(new Font("Montserrat", Font.BOLD, 17));
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						String inputUn= String.valueOf(txtUsername.getText());
+						String inputPass= String.valueOf( txtPassword.getPassword());
 						
-						System.out.println(txtUsername.getText());
-						System.out.println(txtPassword.getPassword());
-						System.out.println("user".toCharArray());
-						System.out.print(txtPassword.getPassword() == "user".toCharArray());
-
-						if( (txtUsername.getText() == "user") && (txtPassword.getPassword() == "user".toCharArray()) ) {
+					  
+						if(inputUn.equals("user") && inputPass.equals("user")) {
+			
 							setVisible(false);
 							new Main();							
 						}
