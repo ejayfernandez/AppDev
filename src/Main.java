@@ -1,5 +1,6 @@
 import java.awt.Button;
 import java.awt.Color;
+//import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
@@ -22,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+//import javax.swing.table.TableCellRenderer;
+
 import java.text.DecimalFormat;
 
 
@@ -62,7 +65,7 @@ public class Main{
 	
     JTable tableEntries = new JTable(new DefaultTableModel(new Object[]{"Entry No & Date","Account","Debit","Credit"},0));
     JTable tableTrial = new JTable(new DefaultTableModel(new Object[]{"Account","Debit","Credit"},0));
-    JTable tableStatement = new JTable(new DefaultTableModel(new Object[]{"Entry No & Date","Account","Debit","Credit"},0));
+    JTable tableStatement = new JTable(new DefaultTableModel(new Object[]{"",""},0));
     
 	DefaultTableModel entJournal = (DefaultTableModel) tableEntries.getModel();
 	DefaultTableModel entTrial = (DefaultTableModel) tableTrial.getModel();
@@ -144,35 +147,35 @@ public class Main{
 		btnJournal.setForeground(Color.BLACK);
 		btnJournal.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnJournal.setBackground(new Color(255, 215, 0));
-		btnJournal.setBounds(-12, 66, 183, 58);
+		btnJournal.setBounds(-12, 49, 183, 81);
 		panelTabs.add(btnJournal);
 		
 		Button btnTrial = new Button("Trial Balance");
 		btnTrial.setForeground(Color.BLACK);
 		btnTrial.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-		btnTrial.setBounds(-12, 133, 183, 58);
+		btnTrial.setBounds(-12, 130, 183, 81);
 		panelTabs.add(btnTrial);
 		
 		Button btnStatement = new Button("Income Statement");
 		btnStatement.setForeground(Color.BLACK);
 		btnStatement.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
-		btnStatement.setBounds(-11, 203, 183, 58);
+		btnStatement.setBounds(-12, 211, 183, 81);
 		panelTabs.add(btnStatement);
 		
-		Button btnEquity = new Button("Income Statement");
+		Button btnEquity = new Button("Owner's Equity");
 		btnEquity.setForeground(Color.BLACK);
 		btnEquity.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
-		btnEquity.setBounds(-11, 203, 183, 58);
+		btnEquity.setBounds(-12, 292, 183, 81);
 		panelTabs.add(btnEquity);
 
-		Button btnPosition = new Button("Income Statement");
+		Button btnPosition = new Button("Financial Position");
 		btnPosition.setForeground(Color.BLACK);
 		btnPosition.setFont(new Font("Montserrat", Font.BOLD, 17));
 		btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
-		btnPosition.setBounds(-11, 203, 183, 58);
+		btnPosition.setBounds(-12, 373, 183, 81);
 		panelTabs.add(btnPosition);
 		
 		
@@ -297,15 +300,63 @@ public class Main{
 	    tableScroll_Trial.setBounds(21, 64, 660, 372);
         panelTrial.add(tableScroll_Trial);
         panelTrial.setVisible(false);
+	        //Object c = tableTrial.getCellRenderer(13, 0);
+			//((Component) c).setBackground(new Color(250,215,0));
 		
-		frame.setVisible(true);
+        
+        
+        
+        
+        
+        
+        
+        
+        JPanel panelStatement = new JPanel();
+		panelStatement.setLayout(null);
+		panelStatement.setBackground(Color.WHITE);
+		panelStatement.setBounds(210, 100, 704, 461);
+		frame.getContentPane().add(panelStatement);
 		
-		
-		
-		
-		
-		
-   
+		Label lblStatement = new Label("INCOME STATEMENT");
+		lblStatement.setForeground(SystemColor.text);
+		lblStatement.setFont(new Font("Montserrat", Font.BOLD, 23));
+		lblStatement.setBackground(new Color(51, 51, 51));
+		lblStatement.setAlignment(Label.CENTER);
+		lblStatement.setBounds(0, 0, 704, 43);
+		panelStatement.add(lblStatement);
+
+        JScrollPane tableScroll_Statement = new JScrollPane(tableStatement);        
+//        JTableHeader tableHeader_Statement = tableStatement.getTableHeader();
+
+//	        tableHeader_Statement.setBackground(new Color(250,215,0)); // change the Background color
+//	        tableHeader_Statement.setFont(new Font("Montserrat", Font.PLAIN, 17)); // font name style size
+//	        	((DefaultTableCellRenderer)tableHeader_Statement.getDefaultRenderer())
+//	                .setHorizontalAlignment(JLabel.CENTER); // center header text
+
+	        	centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+	        
+	        	tableStatement.setFont(new Font("Montserrat", Font.PLAIN, 14));
+//	        tableHeader_Statement.setReorderingAllowed(false);
+//	        tableHeader_Statement.setResizingAllowed(false);
+        	tableStatement.setRowHeight(30);
+
+	        entStatement.addRow(new Object[]{"Service Revenue", 0});
+	        entStatement.addRow(new Object[]{"EXPENSES  (LESS)", 0});
+	        entStatement.addRow(new Object[]{"Rent Expense", 0});
+	        entStatement.addRow(new Object[]{"Salaries Expense", 0});
+	        entStatement.addRow(new Object[]{"Utilities Expense", 0, 0});
+	        entStatement.addRow(new Object[]{"NET INCOME  (LOSS)", 0, 0});
+
+	    tableScroll_Statement.setBounds(21, 64, 660, 372);
+        panelStatement.add(tableScroll_Statement);
+        panelStatement.setVisible(false);
+        
+        
+        
+        
+        
+        
+        
 		JPanel panelInputs = new JPanel();
 		panelInputs.setBackground(SystemColor.text);
 		panelInputs.setBounds(679, 100, 235, 461);
@@ -433,9 +484,15 @@ public class Main{
 				btnJournal.setBackground(new Color(255, 215, 0));
 				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
 				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+				btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
+				btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
+				
 				panelJournal.setVisible(true);
-				panelInputs.setVisible(true);
+					panelInputs.setVisible(true);
 				panelTrial.setVisible(false);
+				panelStatement.setVisible(false);
+				//panelPosition.setVisible(false);
+				//panelEquity.setVisible(false);
 			}
 		});
 		btnTrial.addActionListener(new ActionListener() {
@@ -443,9 +500,15 @@ public class Main{
 				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
 				btnTrial.setBackground(new Color(255, 215, 0));
 				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+				btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
+				btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
+				
 				panelJournal.setVisible(false);
-				panelInputs.setVisible(false);
+					panelInputs.setVisible(false);
 				panelTrial.setVisible(true);
+				panelStatement.setVisible(false);
+				//panelPosition.setVisible(false);
+				//panelEquity.setVisible(false);
 			}
 		});
 		btnStatement.addActionListener(new ActionListener() {
@@ -453,22 +516,52 @@ public class Main{
 				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
 				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
 				btnStatement.setBackground(new Color(255, 215, 0));
+				btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
+				btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
+				
+				panelJournal.setVisible(false);
+					panelInputs.setVisible(false);
+				panelTrial.setVisible(false);
+				panelStatement.setVisible(true);
+				//panelPosition.setVisible(false);
+				//panelEquity.setVisible(false);
 			}
 		});
-		btnStatement.addActionListener(new ActionListener() {
+		btnEquity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
 				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-				btnStatement.setBackground(new Color(255, 215, 0));
+				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+				btnEquity.setBackground(new Color(255, 215, 0));
+				btnPosition.setBackground(SystemColor.inactiveCaptionBorder);
+				
+				panelJournal.setVisible(true);
+					panelInputs.setVisible(true);
+				panelTrial.setVisible(false);
+				panelStatement.setVisible(false);
+				//panelPosition.setVisible(false);
+				//panelEquity.setVisible(false);
 			}
 		});
-		btnStatement.addActionListener(new ActionListener() {
+		btnPosition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnJournal.setBackground(SystemColor.inactiveCaptionBorder);
 				btnTrial.setBackground(SystemColor.inactiveCaptionBorder);
-				btnStatement.setBackground(new Color(255, 215, 0));
+				btnStatement.setBackground(SystemColor.inactiveCaptionBorder);
+				btnEquity.setBackground(SystemColor.inactiveCaptionBorder);
+				btnPosition.setBackground(new Color(255, 215, 0));
+				
+				panelJournal.setVisible(true);
+					panelInputs.setVisible(true);
+				panelTrial.setVisible(false);
+				panelStatement.setVisible(false);
+				//panelPosition.setVisible(false);
+				//panelEquity.setVisible(false);
 			}
 		});
+
+		
+        frame.setVisible(true);
 	}
 
 	public void compute() {
